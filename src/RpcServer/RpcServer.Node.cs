@@ -73,7 +73,7 @@ namespace Neo.Plugins
         protected virtual JObject SendRawTransaction(JArray _params)
         {
             Transaction tx = Convert.FromBase64String(_params[0].AsString()).AsSerializable<Transaction>();
-            RelayResult reason = system.Blockchain.Ask<RelayResult>(tx).Result;
+            RelayResult reason = system.TransactionRouter.Ask<RelayResult>(tx).Result;
             return GetRelayResult(reason.Result, tx.Hash);
         }
 
