@@ -1,4 +1,3 @@
-using Neo.Persistence;
 using Neo.IO.Data.LevelDB;
 using Neo.Persistence;
 using System;
