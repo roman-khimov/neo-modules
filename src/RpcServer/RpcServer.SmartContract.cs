@@ -130,7 +130,7 @@ namespace Neo.Plugins
             Signers signers = _params.Count >= 2 ? SignersFromJson((JArray)_params[1]) : null;
             return GetInvokeResult(script, signers);
         }
-
+	/*
         [RpcMethod]
         protected virtual JObject GetUnclaimedGas(JArray _params)
         {
@@ -152,7 +152,7 @@ namespace Neo.Plugins
             json["address"] = script_hash.ToAddress();
             return json;
         }
-
+	*/
         static string GetExceptionMessage(Exception exception)
         {
             return exception?.GetBaseException().Message;

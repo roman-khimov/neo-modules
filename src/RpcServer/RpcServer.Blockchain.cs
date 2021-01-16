@@ -105,6 +105,7 @@ namespace Neo.Plugins
             return Convert.ToBase64String(header.ToArray());
         }
 	*/
+	/*
         [RpcMethod]
         protected virtual JObject GetContractState(JArray _params)
         {
@@ -113,7 +114,7 @@ namespace Neo.Plugins
             ContractState contract = NativeContract.ContractManagement.GetContract(snapshot, script_hash);
             return contract?.ToJson() ?? throw new RpcException(-100, "Unknown contract");
         }
-
+	*/
         private static UInt160 ToScriptHash(string keyword)
         {
             foreach (var native in NativeContract.Contracts)
@@ -141,7 +142,7 @@ namespace Neo.Plugins
             json["unverified"] = new JArray(unverifiedTransactions.Select(p => (JObject)p.Hash.ToString()));
             return json;
         }
-
+	/*
         [RpcMethod]
         protected virtual JObject GetRawTransaction(JArray _params)
         {
@@ -166,7 +167,6 @@ namespace Neo.Plugins
             }
             return Convert.ToBase64String(tx.ToArray());
         }
-
         [RpcMethod]
         protected virtual JObject GetStorage(JArray _params)
         {
@@ -195,6 +195,7 @@ namespace Neo.Plugins
             if (height.HasValue) return height.Value;
             throw new RpcException(-100, "Unknown transaction");
         }
+	*/
 
         [RpcMethod]
         protected virtual JObject GetNextBlockValidators(JArray _params)
