@@ -55,7 +55,7 @@ namespace Neo.Consensus
         public bool IsPrimary => MyIndex == Block.ConsensusData.PrimaryIndex;
         public bool IsBackup => MyIndex >= 0 && MyIndex != Block.ConsensusData.PrimaryIndex;
         public bool WatchOnly => MyIndex < 0;
-        public Header PrevHeader => NativeContract.Ledger.GetTrimmedBlock(Snapshot, Block.PrevHash);
+        public TrimmedBlock PrevHeader => NativeContract.Ledger.GetTrimmedBlock(Snapshot, Block.PrevHash);
         public int CountCommitted => CommitPayloads.Count(p => p != null);
         public int CountFailed
         {
@@ -235,7 +235,7 @@ namespace Neo.Consensus
 
         public bool Load()
         {
-            byte[] data = store.TryGet(ConsensusStatePrefix, null);
+            byte[] data = store.TryGet(null);
             if (data is null || data.Length == 0) return false;
             using (MemoryStream ms = new MemoryStream(data, false))
             using (BinaryReader reader = new BinaryReader(ms))
@@ -449,8 +449,8 @@ namespace Neo.Consensus
                 {
                     PrevHash = NativeContract.Ledger.CurrentHash(Snapshot),
                     Index = NativeContract.Ledger.CurrentIndex(Snapshot) + 1,
-                    NextConsensus = Blockchain.GetConsensusAddress(
-                        NativeContract.NEO.ShouldRefreshCommittee(Index) ?
+                    NextConsensus = Contract.GetBFTAddress(
+                        NativeContract.NEO.ShouldRefreshCommittee(NativeContract.Ledger.CurrentIndex(Snapshot) + 1) ?
                         NativeContract.NEO.ComputeNextBlockValidators(Snapshot) :
                         NativeContract.NEO.GetNextBlockValidators(Snapshot))
                 };
@@ -522,7 +522,7 @@ namespace Neo.Consensus
 
         public void Save()
         {
-            store.PutSync(ConsensusStatePrefix, null, this.ToArray());
+            store.PutSync(null, this.ToArray());
         }
 
         public void Serialize(BinaryWriter writer)
