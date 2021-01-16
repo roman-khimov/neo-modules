@@ -84,7 +84,7 @@ namespace Neo.Plugins
             json["balance"] = wallet.GetAvailable(asset_id).Value.ToString();
             return json;
         }
-
+	/*
         [RpcMethod]
         protected virtual JObject GetWalletUnclaimedGas(JArray _params)
         {
@@ -97,7 +97,7 @@ namespace Neo.Plugins
                 }
             return new BigDecimal(gas, NativeContract.GAS.Decimals).ToString();
         }
-
+	*/
         [RpcMethod]
         protected virtual JObject ImportPrivKey(JArray _params)
         {
@@ -236,7 +236,7 @@ namespace Neo.Plugins
                 throw new RpcException(-301, "The necessary fee is more than the Max_fee, this transaction is failed. Please increase your Max_fee value.");
             return SignAndRelay(tx);
         }
-
+	/*
         [RpcMethod]
         protected virtual JObject SendMany(JArray _params)
         {
@@ -286,7 +286,7 @@ namespace Neo.Plugins
                 throw new RpcException(-301, "The necessary fee is more than the Max_fee, this transaction is failed. Please increase your Max_fee value.");
             return SignAndRelay(tx);
         }
-
+	*/
         [RpcMethod]
         protected virtual JObject SendToAddress(JArray _params)
         {

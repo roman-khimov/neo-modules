@@ -28,15 +28,16 @@ namespace Neo.Plugins
             JObject key = _params[0];
             bool verbose = _params.Count >= 2 && _params[1].AsBoolean();
             Block block;
+	    SnapshotCache snapshot = Blockchain.Singleton.GetSnapshot();
             if (key is JNumber)
             {
                 uint index = uint.Parse(key.AsString());
-                block = Blockchain.Singleton.GetBlock(index);
+                block = NativeContract.Ledger.GetBlock(snapshot, index);
             }
             else
             {
                 UInt256 hash = UInt256.Parse(key.AsString());
-                block = Blockchain.Singleton.View.GetBlock(hash);
+                block = NativeContract.Ledger.GetBlock(snapshot, hash);
             }
             if (block == null)
                 throw new RpcException(-100, "Unknown block");
@@ -44,7 +45,7 @@ namespace Neo.Plugins
             {
                 JObject json = Utility.BlockToJson(block);
                 json["confirmations"] = Blockchain.Singleton.Height - block.Index + 1;
-                UInt256 hash = Blockchain.Singleton.GetNextBlockHash(block.Hash);
+                UInt256 hash = null; //Blockchain.Singleton.GetNextBlockHash(block.Hash);
                 if (hash != null)
                     json["nextblockhash"] = hash.ToString();
                 return json;
@@ -62,19 +63,22 @@ namespace Neo.Plugins
         protected virtual JObject GetBlockHash(JArray _params)
         {
             uint height = uint.Parse(_params[0].AsString());
+	    SnapshotCache snapshot = Blockchain.Singleton.GetSnapshot();
             if (height <= Blockchain.Singleton.Height)
             {
-                return Blockchain.Singleton.GetBlockHash(height).ToString();
+                return NativeContract.Ledger.GetBlockHash(snapshot, height).ToString();
             }
             throw new RpcException(-100, "Invalid Height");
         }
 
+	/*
         [RpcMethod]
         protected virtual JObject GetBlockHeader(JArray _params)
         {
             JObject key = _params[0];
             bool verbose = _params.Count >= 2 && _params[1].AsBoolean();
             Header header;
+	    SnapshotCache snapshot = Blockchain.Singleton.GetSnapshot();
             if (key is JNumber)
             {
                 uint height = uint.Parse(key.AsString());
@@ -100,7 +104,7 @@ namespace Neo.Plugins
 
             return Convert.ToBase64String(header.ToArray());
         }
-
+	*/
         [RpcMethod]
         protected virtual JObject GetContractState(JArray _params)
         {
