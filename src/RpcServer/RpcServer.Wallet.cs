@@ -325,6 +325,7 @@ namespace Neo.Plugins
             return SignAndRelay(tx);
         }
 
+	/*
         [RpcMethod]
         protected virtual JObject InvokeContractVerify(JArray _params)
         {
@@ -334,7 +335,6 @@ namespace Neo.Plugins
             Signers signers = _params.Count >= 3 ? SignersFromJson((JArray)_params[2]) : null;
             return GetVerificationResult(script_hash, args, signers);
         }
-	/*
         private JObject GetVerificationResult(UInt160 scriptHash, ContractParameter[] args, Signers signers = null)
         {
             var snapshot = Blockchain.Singleton.GetSnapshot();

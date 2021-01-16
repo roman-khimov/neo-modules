@@ -200,7 +200,7 @@ namespace Neo.Plugins
         [RpcMethod]
         protected virtual JObject GetNextBlockValidators(JArray _params)
         {
-            using SnapshotView snapshot = Blockchain.Singleton.GetSnapshot();
+            using SnapshotCache snapshot = Blockchain.Singleton.GetSnapshot();
             var validators = NativeContract.NEO.GetNextBlockValidators(snapshot);
             var candidates = NativeContract.NEO.GetCandidates(snapshot);
             if (candidates.Length > 0)
@@ -230,7 +230,7 @@ namespace Neo.Plugins
         [RpcMethod]
         protected virtual JObject GetCommittee(JArray _params)
         {
-            using SnapshotView snapshot = Blockchain.Singleton.GetSnapshot();
+            using SnapshotCache snapshot = Blockchain.Singleton.GetSnapshot();
             return new JArray(NativeContract.NEO.GetCommittee(snapshot).Select(p => (JObject)p.ToString()));
         }
 
