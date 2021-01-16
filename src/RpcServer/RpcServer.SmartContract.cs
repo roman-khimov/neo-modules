@@ -45,7 +45,7 @@ namespace Neo.Plugins
                 throw new NotImplementedException();
             }
 
-            public UInt160[] GetScriptHashesForVerifying(StoreView snapshot)
+            public UInt160[] GetScriptHashesForVerifying(DataCache snapshot)
             {
                 return _signers.Select(p => p.Account).ToArray();
             }
