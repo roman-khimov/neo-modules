@@ -1,4 +1,4 @@
-using Neo.IO.Caching;
+using Neo.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
