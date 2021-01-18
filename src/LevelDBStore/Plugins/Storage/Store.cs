@@ -65,9 +65,9 @@ namespace Neo.Plugins.Storage
             db.Put(WriteOptions.Default, key, value);
         }
 
-        public void PutSync(byte table, byte[] key, byte[] value)
+        public void PutSync(byte[] key, byte[] value)
         {
-            db.Put(WriteOptions.SyncWrite, LHelper.CreateKey(table, key), value);
+            db.Put(WriteOptions.SyncWrite, key, value);
         }
 
         public bool Contains(byte[] key)

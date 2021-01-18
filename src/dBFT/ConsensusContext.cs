@@ -235,7 +235,7 @@ namespace Neo.Consensus
 
         public bool Load()
         {
-            byte[] data = store.TryGet(null);
+            byte[] data = store.TryGet([]new{ConsensusStatePrefix});
             if (data is null || data.Length == 0) return false;
             using (MemoryStream ms = new MemoryStream(data, false))
             using (BinaryReader reader = new BinaryReader(ms))
@@ -522,7 +522,7 @@ namespace Neo.Consensus
 
         public void Save()
         {
-            store.PutSync(null, this.ToArray());
+            store.PutSync(new[]{ConsensusStatePrefix}, this.ToArray());
         }
 
         public void Serialize(BinaryWriter writer)
