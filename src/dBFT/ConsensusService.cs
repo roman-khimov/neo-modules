@@ -527,7 +527,7 @@ namespace Neo.Consensus
 
         private void RequestRecovery()
         {
-            if (context.Block.Index == NativeContract.Ledger.CurrentIndex(context.Snapshot) + 1)
+            if (context.Block.Index == Blockchain.Singleton.Height + 1)
             {
                 Log($"Sending {nameof(RecoveryRequest)}: height={context.Block.Index} view={context.ViewNumber} nc={context.CountCommitted} nf={context.CountFailed}");
                 localNode.Tell(new LocalNode.SendDirectly { Inventory = context.MakeRecoveryRequest() });

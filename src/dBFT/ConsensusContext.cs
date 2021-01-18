@@ -22,7 +22,7 @@ namespace Neo.Consensus
         /// <summary>
         /// Key for saving consensus state.
         /// </summary>
-        private const byte ConsensusStatePrefix = 0xf4;
+        private byte[] ConsensusStatePrefix = BitConverter.GetBytes(0xf4);
 
         public Block Block;
         public byte ViewNumber;
@@ -235,7 +235,7 @@ namespace Neo.Consensus
 
         public bool Load()
         {
-            byte[] data = store.TryGet([]new{ConsensusStatePrefix});
+            byte[] data = store.TryGet(ConsensusStatePrefix);
             if (data is null || data.Length == 0) return false;
             using (MemoryStream ms = new MemoryStream(data, false))
             using (BinaryReader reader = new BinaryReader(ms))
@@ -522,7 +522,7 @@ namespace Neo.Consensus
 
         public void Save()
         {
-            store.PutSync(new[]{ConsensusStatePrefix}, this.ToArray());
+            store.PutSync(ConsensusStatePrefix, this.ToArray());
         }
 
         public void Serialize(BinaryWriter writer)
